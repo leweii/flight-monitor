@@ -1,0 +1,56 @@
+# config.yaml
+
+database:
+  host: ${DB_HOST:-localhost}
+  port: ${DB_PORT:-5432}
+  name: flight_monitor
+  user: ${DB_USER:-postgres}
+  password: ${DB_PASSWORD:-postgres}
+
+sources:
+  amadeus:
+    enabled: true
+    client_id: ${AMADEUS_CLIENT_ID}
+    client_secret: ${AMADEUS_CLIENT_SECRET}
+  kiwi:
+    enabled: false
+    api_key: ${KIWI_API_KEY}
+  aviationstack:
+    enabled: false
+    api_key: ${AVIATIONSTACK_API_KEY}
+  skyscanner:
+    enabled: false
+    api_key: ${SKYSCANNER_API_KEY}
+
+notifiers:
+  console:
+    enabled: true
+    level: INFO
+  wechat:
+    enabled: false
+    push_key: ${WECHAT_PUSH_KEY}
+  email:
+    enabled: false
+    smtp_host: smtp.gmail.com
+    smtp_port: 587
+    username: ${EMAIL_USER}
+    password: ${EMAIL_PASSWORD}
+    recipients:
+      - your@email.com
+  telegram:
+    enabled: false
+    bot_token: ${TELEGRAM_BOT_TOKEN}
+    chat_id: ${TELEGRAM_CHAT_ID}
+
+routes:
+  - name: 厦门-新加坡
+    origin: XMN
+    destination: SIN
+    check_interval: 1h
+    date_range:
+      start: 2026-02-01
+      end: 2026-02-28
+    alerts:
+      - type: threshold
+        max_price: 1500
+        currency: CNY
